@@ -8,9 +8,6 @@ use Slim\Csrf\Guard;
 use Slim\Factory\AppFactory;
 use Slim\Flash\Messages as Flash;
 use Slim\Views\Twig;
-use Symfony\Bridge\Twig\Mime\BodyRenderer;
-use Symfony\Component\Mailer\Mailer;
-use Symfony\Component\Mailer\Transport\Smtp\EsmtpTransport;
 use Twig\TwigFunction;
 
 return [
@@ -90,28 +87,7 @@ return [
 
         $twig->getEnvironment()->addFunction($profilePath);
 
-        $absoluteUrl = new TwigFunction('absolute_url', function () use ($c, $settings) {
-            return $_SERVER['HTTP_HOST'];
-        });
-
-        $twig->getEnvironment()->addFunction($absoluteUrl);
-
         return $twig;
-    },
-
-    Mailer::class => function (ContainerInterface $container) {
-        $settings = $container->get('settings')['smtp'];
-
-        $transport = new EsmtpTransport(
-            $settings['host'],
-            $settings['port'],
-        // $settings['encryption']
-        );
-
-        $transport->setUsername($settings['username']);
-        $transport->setPassword($settings['password']);
-
-        return new Mailer($transport);
     },
 
     'csrf' => function (ContainerInterface $c) {
@@ -120,10 +96,4 @@ return [
 
         return new Guard($responseFactory);
     },
-
-    BodyRenderer::class => function(ContainerInterface $c){
-        $twigEnv = $c->get(Twig::class)->getEnvironment();
-
-        return new BodyRenderer($twigEnv);
-    }
 ];

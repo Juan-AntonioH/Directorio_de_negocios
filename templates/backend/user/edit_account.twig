@@ -1,0 +1,171 @@
+{% extends '@backend/template/layout/app_layout.twig' %}
+
+{% block breadcrumbs %}
+    <h4 class="fw-bold py-3 mb-4"><a href="{{ url_for('user.edit.account') }}" class="text-muted fw-light">Account Settings /</a> Account</h4>
+{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="nav nav-pills flex-column flex-md-row mb-3" id="accountTab" role="tablist">
+                <li class="nav-item">
+                    <a class="nav-link {% if (errors.oldPassword) or (errors.password) or (errors.confirmPassword) %} {% else %} active {% endif %}" href="javascript:void(0);" id="profile-tab"
+                       data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="true"><i class="bx bx-user me-1"></i> Profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if (errors.oldPassword) or (errors.password) or (errors.confirmPassword) %} active {% endif %}" href="javascript:void(0);" id="password-tab"
+                       data-bs-toggle="tab" data-bs-target="#password" type="button" role="tab" aria-controls="password" aria-selected="true"><i class="bx bx-user me-1"></i> Password</a>
+                </li>
+            </ul>
+            <div class="tab-content" id="accountTabContent">
+                <div class="tab-pane fade {% if (errors.oldPassword) or (errors.password) or (errors.confirmPassword) %} {% else %}  show active  {% endif %}" id="profile" role="tabpanel"
+                     aria-labelledby="profile-tab">
+                    <div class="card mb-4">
+                        <h5 class="card-header">Profile Details</h5>
+                        <!-- Account -->
+                        <form method="POST" action="{{ url_for('post.user.edit.account') }}" enctype="multipart/form-data">
+                            <div class="card-body">
+                                <div class="d-flex align-items-start align-items-sm-center gap-4">
+                                    <img
+                                            src="{{ auth.user.photo }}"
+                                            alt="user-avatar"
+                                            class="d-block rounded"
+                                            height="100"
+                                            width="100"
+                                            id="uploadedAvatar"
+                                    />
+                                    <div class="button-wrapper">
+                                        <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+                                            <span class="d-none d-sm-block">Upload new photo</span>
+                                            <i class="bx bx-upload d-block d-sm-none"></i>
+                                            <input
+                                                    type="file"
+                                                    id="upload"
+                                                    class="account-file-input"
+                                                    name="profile-photo"
+                                                    hidden
+                                                    accept="image/png, image/jpeg"
+                                            />
+                                        </label>
+
+                                        <p class="text-muted mb-0">Allowed JPG, GIF or PNG. Max size of 800K</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="my-0"/>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="mb-3 col-md-6">
+                                        <label for="firstName" class="form-label">Name</label>
+                                        <input
+                                                class="form-control {{ errors.username ? 'is-invalid' : '' }}"
+                                                type="text"
+                                                id="username"
+                                                name="username"
+                                                value="{{ auth.user.name }}"
+                                                autofocus
+                                        />
+                                        {% if errors.username %}
+                                            <div class="invalid-feedback">
+                                                {{ errors.username | first }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="email" class="form-label">E-mail</label>
+                                        <input
+                                                class="form-control {{ errors.email ? 'is-invalid' : '' }}"
+                                                type="text"
+                                                id="email"
+                                                name="email"
+                                                value="{{ auth.user.email }}"
+                                                placeholder="john.doe@example.com"
+                                        />
+                                        {% if errors.email %}
+                                            <div class="invalid-feedback">
+                                                {{ errors.email | first }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="mt-2">
+                                    <button type="submit" class="btn btn-primary me-2">Save changes</button>
+                                </div>
+                            </div>
+
+                            {{ csrf.field | raw }}
+                        </form>
+                        <!-- /Account -->
+                    </div>
+                </div>
+                <div class="tab-pane fade {% if (errors.oldPassword) or (errors.password) or (errors.confirmPassword) %} show active {% endif %}" id="password" role="tabpanel"
+                     aria-labelledby="password-tab">
+                    <div class="card mb-4">
+                        <h5 class="card-header">Profile Details</h5>
+                        <!-- Account -->
+                        <form method="POST" action="{{ url_for('post.user.edit.account.changePassword') }}">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="mb-3 col-md-6">
+                                        <label for="firstName" class="form-label">Old Password</label>
+                                        <input
+                                                class="form-control {{ errors.oldPassword ? 'is-invalid' : '' }}"
+                                                type="password"
+                                                id="oldPassword"
+                                                name="oldPassword"
+                                                autofocus
+                                        />
+                                        {% if errors.oldPassword %}
+                                            <div class="invalid-feedback">
+                                                {{ errors.oldPassword | first }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="firstName" class="form-label">New Password</label>
+                                        <input
+                                                class="form-control {{ errors.password ? 'is-invalid' : '' }}"
+                                                type="password"
+                                                id="password"
+                                                name="password"
+                                        />
+                                        {% if errors.password %}
+                                            <div class="invalid-feedback">
+                                                {{ errors.password | first }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="firstName" class="form-label">Repeat Password</label>
+                                        <input
+                                                class="form-control {{ errors.confirmPassword ? 'is-invalid' : '' }}"
+                                                type="password"
+                                                id="confirmPassword"
+                                                name="confirmPassword"
+                                        />
+                                        {% if errors.confirmPassword %}
+                                            <div class="invalid-feedback">
+                                                {{ errors.confirmPassword | first }}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="mt-2">
+                                    <button type="submit" class="btn btn-primary me-2">Save changes</button>
+                                </div>
+                            </div>
+
+                            {{ csrf.field | raw }}
+                        </form>
+                        <!-- /Account -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

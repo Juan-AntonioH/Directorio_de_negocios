@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html
+        lang="{{ app_default_lang }}"
+        class="light-style layout-menu-fixed"
+        dir="ltr"
+        data-theme="theme-default"
+        data-assets-path="/assets/backend/assets/"
+        data-template="vertical-menu-template-free"
+>
+<head>
+    <meta charset="utf-8"/>
+    <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
+    />
+
+    <title>{% block title %}{{ app.name }}{% endblock %}</title>
+
+    <meta name="description" content=""/>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/assets/backend/assets/img/favicon/favicon.ico"/>
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"/>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+    <link
+            href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+            rel="stylesheet"
+    />
+
+    <!-- Icons. Uncomment required icon fonts -->
+    <link rel="stylesheet" href="/assets/backend/assets/vendor_js/fonts/boxicons.css"/>
+
+    <!-- Core CSS -->
+    <link rel="stylesheet" href="/assets/backend/assets/vendor_js/css/core.css" class="template-customizer-core-css"/>
+    <link rel="stylesheet" href="/assets/backend/assets/vendor_js/css/theme-default.css" class="template-customizer-theme-css"/>
+    <link rel="stylesheet" href="/assets/backend/assets/css/demo.css"/>
+
+    <!-- Vendors CSS -->
+    <link rel="stylesheet" href="/assets/backend/assets/vendor_js/libs/perfect-scrollbar/perfect-scrollbar.css"/>
+
+    <link rel="stylesheet" href="/assets/backend/assets/vendor_js/libs/apex-charts/apex-charts.css"/>
+
+    {% block extraCss %}
+
+    {% endblock %}
+
+    <!-- Page CSS -->
+
+    <!-- Helpers -->
+    <script src="/assets/backend/assets/vendor_js/js/helpers.js"></script>
+
+    <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+    <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+    <script src="/assets/backend/assets/js/config.js"></script>
+</head>
+
+<body>
+<!-- Layout wrapper -->
+<div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+        <!-- Menu -->
+
+        {% include '@backend/template/partials/aside_menu.twig' %}
+
+        <!-- / Menu -->
+
+        <!-- Layout container -->
+        <div class="layout-page">
+            <!-- Navbar -->
+            {#            {% include '@backend/template/partials/navbar.twig' %} #}
+
+            <!-- / Navbar -->
+
+            <!-- Content wrapper -->
+            <div class="content-wrapper">
+                <!-- Content -->
+
+                <div class="container-xxl flex-grow-1 container-p-y">
+                    <!-- Toast with Placements -->
+                    <div
+                            class="bs-toast toast toast-notification m-2 position-absolute top-0 end-0"
+                            role="alert"
+                            aria-live="assertive"
+                            aria-atomic="true"
+                            data-delay="2000"
+                    >
+                        <div class="toast-header">
+                            <i id="toast-notification-icon" class="bx me-2"></i>
+                            <div id="toast-notification-title" class="me-auto fw-semibold"></div>
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div id="toast-notification-description" class="toast-body"></div>
+                    </div>
+
+                    <div class="container-xxl flex-grow-1 container-p-y">
+                        {% block breadcrumbs %}
+                        {% endblock %}
+
+                        <!-- Toast with Placements -->
+                        {% block body %}
+
+                        {% endblock %}
+                    </div>
+                </div>
+                <!-- / Content -->
+
+                <!-- Footer -->
+                {% include '@backend/template/partials/footer.twig' %}
+                <!-- / Footer -->
+
+                <div class="content-backdrop fade"></div>
+            </div>
+            <!-- Content wrapper -->
+        </div>
+        <!-- / Layout page -->
+    </div>
+
+    <!-- Overlay -->
+    <div class="layout-overlay layout-menu-toggle"></div>
+</div>
+<!-- / Layout wrapper -->
+
+
+<!-- Core JS -->
+<!-- build:js assets/vendor/js/core.js -->
+<script src="/assets/backend/assets/vendor_js/libs/jquery/jquery.js"></script>
+<script src="/assets/backend/assets/vendor_js/libs/popper/popper.js"></script>
+<script src="/assets/backend/assets/vendor_js/js/bootstrap.js"></script>
+<script src="/assets/backend/assets/vendor_js/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+<script src="/assets/backend/assets/vendor_js/js/menu.js"></script>
+<!-- endbuild -->
+
+<!-- Vendors JS -->
+<script src="/assets/backend/assets/vendor_js/libs/apex-charts/apexcharts.js"></script>
+
+<!-- Main JS -->
+<script src="/assets/backend/assets/js/main.js"></script>
+
+<!-- Page JS -->
+<script src="/assets/backend/assets/js/dashboards-analytics.js"></script>
+
+<script>
+    $('.table-responsive').on('show.bs.dropdown', function () {
+        $('.table-responsive').css("overflow", "inherit");
+    });
+
+    $('.table-responsive').on('hide.bs.dropdown', function () {
+        $('.table-responsive').css("overflow", "auto");
+    })
+
+    $('.form-check-input').on('change', function () {
+        this.value = this.checked ? 1 : 0;
+    }).change();
+
+
+    function copyFunction(element) {
+        event.preventDefault();
+        var link = element;
+        var tempText = document.createElement('textarea');
+        tempText.value = link.href;
+        document.body.appendChild(tempText);
+        tempText.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempText);
+        toastr.success('Enlace copiado')
+    }
+
+    // Toast
+    const toastCentral = document.querySelector('.toast-notification'),
+        toastIconSelector = document.querySelector('#toast-notification-icon'),
+        toastTitleSelector = document.querySelector('#toast-notification-title'),
+        toastDescriptionSelector = document.querySelector('#toast-notification-description');
+
+    let toastPlacement, selectedType;
+
+    function toastDispose(toast) {
+        if (toast && toast._element !== null) {
+            if (toastCentral) {
+                toastCentral.classList.remove(selectedType);
+            }
+            toast.dispose();
+        }
+    }
+
+    function showToast(title = '', description = '', icon = 'bx-bell', type = 'info') {
+        switch (type) {
+            case 'success':
+                type = 'bg-success';
+                break;
+            case 'error':
+                type = 'bg-danger';
+                break;
+            case 'warning':
+                type = 'bg-warning';
+                break;
+            case 'info':
+            default:
+                type = 'bg-primary';
+        }
+
+        if (toastPlacement) {
+            toastDispose(toastPlacement, type);
+        }
+
+        toastIconSelector.classList.add(icon);
+        toastTitleSelector.innerHTML = title;
+        toastDescriptionSelector.innerHTML = description;
+
+        selectedType = type;
+        toastCentral.classList.add(type);
+        toastPlacement = new bootstrap.Toast(toastCentral);
+        toastPlacement.show();
+    }
+
+
+
+    {% if flash.getMessage('success') %}
+    showToast('Success', '{{ flash.getMessage('success') | first }}', 'bx-check', 'success')
+    {% endif %}
+
+    {% if flash.getMessage('info') %}
+    showToast('Info', '{{ flash.getMessage('info') | first }}')
+    {% endif %}
+
+    {% if flash.getMessage('error') %}
+    showToast('Error', '{{ flash.getMessage('error') | first }}', 'bx-x', 'error')
+    {% endif %}
+
+    {% if flash.getMessage('warning') %}
+    showToast('Warning', '{{ flash.getMessage('warning') | first }}', 'bx-bell', 'warning')
+    {% endif %}
+
+</script>
+
+
+{% block extraJS %}
+
+{% endblock %}
+
+</body>
+</html>

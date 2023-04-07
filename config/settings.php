@@ -20,16 +20,11 @@ $settings = [
         'cache_path' => __DIR__ . '/../twig_cache/',
         'uploads' => [
             'profile_path' => '/uploads/profiles/',
-            'artist_path' => '/uploads/artists/',
             'public_path' => '/public/uploads/',
         ],
     ],
     'uploads' => [
         'profile_directory' => __DIR__ . '/../uploads/profiles/',
-        'news_directory' => __DIR__ . '/../uploads/news/',
-        'newsThumbnail_directory' => __DIR__ . '/../uploads/newsThumbnail/',
-        'artist_directory' => __DIR__ . '/../uploads/artists/',
-        'thumbnail_directory' => __DIR__ . '/../uploads/thumbnails/',
     ],
     'migrations' => [
         'token' => $_ENV['SECURE_TOKEN'],
@@ -41,16 +36,6 @@ $settings = [
         'host' => $_ENV['DB_HOST'],
         'charset' => $_ENV['CHARSET'],
         'collate' => $_ENV['COLLATE'],
-    ],
-
-    'smtp' => [
-        'host' => 'email-smtp.us-west-2.amazonaws.com',  // SMTP Host
-        'port' => '465',  // SMTP Port
-        'username' => 'AKIAQEJVRWSIAQ76ZWWF',  // SMTP Username
-        'password' => 'BKyIdNje0b4Xk4rd4+pPrvHVc2Z2VjKbCc/8isIx3SHN',  // SMTP Password
-        'protocol' => 'ssl',   // SSL or TLS
-        'default_from_addres' => 'no-reply@casfid.es',
-        'default_from_name' => 'MadCool',
     ],
 ];
 

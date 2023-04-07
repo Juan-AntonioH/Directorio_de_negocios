@@ -1,0 +1,56 @@
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+    <div class="app-brand demo">
+        <a href="{{ url_for('dashboard') }}" class="app-brand-link">
+              <span class="app-brand-logo demo">
+                <img src="{{ base_path() }}{{ app_logo }}" width="200"/>
+              </span>
+            {#            <span class="app-brand-text demo menu-text fw-bolder ms-2">{{ app_name }}</span> #}
+        </a>
+
+        <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+            <i class="bx bx-chevron-left bx-sm align-middle"></i>
+        </a>
+    </div>
+
+    <div class="menu-inner-shadow"></div>
+
+    <ul class="menu-inner py-1">
+        <!-- Dashboard -->
+        <li class="menu-item {{ is_current_url('dashboard') ? 'active' : '' }}">
+            <a href="{{ url_for('dashboard') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-home-circle"></i>
+                <div data-i18n="Analytics">Dashboard</div>
+            </a>
+        </li>
+        {% if isRole('admin') %}
+            <li class="menu-item {{ route_name in ['users.list', 'users-management.post.edit', 'users-management.get.edit', 'users-management.get.createInvitation'] ? 'active' : '' }}">
+                <a href="{{ url_for('users.list') }}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bxs-user-account"></i>
+                    <div data-i18n="Analytics">Management Users</div>
+                </a>
+            </li>
+        {% endif %}
+        <li class="menu-header small text-uppercase">
+            <span class="menu-header-text">My account</span>
+        </li>
+
+        <li class="menu-item {{ is_current_url('user.edit.account') ? 'active' : '' }}">
+            <a href="{{ url_for('user.edit.account') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bxs-user-account"></i>
+                <div data-i18n="Analytics">Settings</div>
+            </a>
+        </li>
+
+        <li class="menu-item">
+            <form id="logoutForm" method="post" action="{{ url_for( 'auth.get.logout') }}">
+                <a href="javascript:$('#logoutForm').submit();" class="menu-link">
+                    <i class="menu-icon tf-icons bx bxs-log-out"></i>
+                    <div data-i18n="Analytics">Logout</div>
+                </a>
+                {{ csrf.field | raw }}
+            </form>
+        </li>
+
+
+    </ul>
+</aside>

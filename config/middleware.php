@@ -27,8 +27,8 @@ return function (App $app) {
     $app->add(OldInputsMiddleware::class);
 
     // CSRF Middlewares
-    // $app->add(CsrfViewMiddleware::class);
-    // $app->add('csrf');
+    $app->add(CsrfViewMiddleware::class);
+    $app->add('csrf');
 
     // Handle exceptions
     $app->addErrorMiddleware(true, true, true);

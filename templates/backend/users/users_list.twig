@@ -1,0 +1,124 @@
+{% extends '@backend/template/layout/app_layout.twig' %}
+
+{% block breadcrumbs %}
+    <h4 class="fw-bold py-3 mb-4"><a href="{{ url_for('users.list') }}" class="text-muted fw-light">Management users /</a> List</h4>
+{% endblock %}
+
+{% block body %}
+        <!-- Responsive Table -->
+        <div class="card">
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <h5 class="mb-0">List</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive text-nowrap">
+                    <table class="table">
+                        <thead>
+                        <tr class="text-nowrap">
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Last Login</th>
+                            <th>Active</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if users is empty %}
+                            <tr>
+                                <td colspan="100%" class="text-center">No users</td>
+                            </tr>
+                        {% else %}
+                            {% for user in users %}
+                                <tr>
+                                    <th scope="row">{{ user.id }}</th>
+                                    <td>{{ user.name }}</td>
+                                    <td>{{ user.email }}</td>
+                                    <td>{{ user.rol_name }}</td>
+                                    <td>{{ user.last_login ? user.last_login : '' }}</td>
+                                    <td>
+                                        <span class="badge {{ user.active ? 'bg-label-success' : 'bg-label-danger' }}">{{ user.active ? 'active' | capitalize : 'deactive' | capitalize }}</span>
+                                    </td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="bx bx-dots-vertical-rounded"></i>
+                                            </button>
+                                            <div class="dropdown-menu" style="">
+                                                <a class="dropdown-item" href="{{ url_for('users-management.get.edit', {id_user: user.id}) }}"><i class="bx bx-edit-alt me-1"></i> Edit</a>
+                                                <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash me-1"></i> Delete</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!--/ Responsive Table -->
+        <hr class="my-5">
+        <!-- Responsive Table -->
+        <div class="card">
+            <div class="card-header d-flex align-items-center justify-content-between">
+                <h5 class="mb-0">Invitations</h5>
+                <a href="{{ url_for('users-management.get.createInvitation') }}" class="btn btn-primary float-end">New invitation</a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive text-nowrap">
+                    <table class="table">
+                        <thead>
+                        <tr class="text-nowrap">
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Link</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if invitations is empty %}
+                            <tr>
+                                <td colspan="100%" class="text-center">No invitations</td>
+                            </tr>
+                        {% else %}
+                            {% for invitation in invitations %}
+                                <tr>
+                                    <th scope="row">{{ invitation.id }}</th>
+                                    <td>{{ invitation.name }}</td>
+                                    <td>{{ invitation.email }}</td>
+                                    <td><a href="{{ url_for('auth.get.sigin.withInvitation', {token: invitation.token}) }}" class="btn btn-outline-secondary js-lists-invitations-values-link btn-sm"
+                                           onclick="copyFunction(this)">Copiar</a></td>
+                                    <td>
+                                        <div class="dropdown">
+                                            <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown" aria-expanded="false">
+                                                <i class="bx bx-dots-vertical-rounded"></i>
+                                            </button>
+                                            <div class="dropdown-menu" style="">
+                                                <form method="post" action="{{ url_for('users-management.post.deleteInvitation', {id_invitation: invitation.id}) }}">
+                                                    <button class="dropdown-item" type="submit"><i class="bx bx-trash me-1"></i> Delete</button>
+
+                                                    {{ csrf.field | raw }}
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% endif %}
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!--/ Responsive Table -->
+
+{% endblock %}

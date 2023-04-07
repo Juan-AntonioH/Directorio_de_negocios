@@ -1,0 +1,24 @@
+parameters:
+	ignoreErrors:
+		- '#Cannot call method execute\(\) on mysqli_stmt\|false#'
+		- '#Cannot call method get_result\(\) on mysqli_stmt\|false#'
+		- '#Cannot access property \$num_rows on mysqli_result\|false#'
+		- '#Cannot call method bind_param\(\) on mysqli_stmt\|false#'
+		- '#Cannot call method fetch_assoc\(\) on mysqli_result\|false#'
+		- '#Cannot call method fetch_array\(\) on mysqli_result\|false#'
+		- '#Cannot call method fetch_all\(\) on mysqli_result\|false#'
+		- '#Cannot access property \$errno on mysqli_stmt\|false#'
+		- '#Cannot call method fetch_array\(\) on bool\|mysqli_result#'
+		- '#Cannot call method execute\(\) on bool\|mysqli_result#'
+		- '#Cannot call method get_result\(\) on bool\|mysqli_result#'
+		- '#Cannot access property \$num_rows on bool\|mysqli_result#'
+		- '#Cannot call method bind_param\(\) on bool\|mysqli_result#'
+		- '#Cannot call method fetch_assoc\(\) on bool\|mysqli_result#'
+		- '#Cannot call method fetch_all\(\) on bool\|mysqli_result#'
+		- '#Cannot access property \$errno on bool\|mysqli_result#'
+	level: 8
+	checkMissingIterableValueType: false
+	paths:
+		- app
+		- config
+		- migrations

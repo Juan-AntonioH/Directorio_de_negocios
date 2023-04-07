@@ -1,0 +1,55 @@
+version: '3.7'
+
+services:
+  db-directorio_negocios:
+    image: mysql:5.7
+    #restart: always
+    container_name: directorio_negocios-db
+    command: mysqld --sql_mode=""
+    ports:
+      - "3311:3306"
+    environment:
+      MYSQL_DATABASE: directorio_negocios
+      MYSQL_ROOT_PASSWORD: root
+      TZ : Europe/Madrid
+    volumes:
+      - ./db:/var/lib/mysql
+
+  app:
+    build:
+      context: .docker
+    container_name: directorio_negocios
+    
+    ports:
+      - "81:80"
+    volumes:
+      - ./:/var/www/html
+      - ./.docker/php.ini:/usr/local/etc/php/php.ini
+      - ./.docker/vhosts/backend-app.conf:/etc/apache2/sites-available/000-default.conf
+    links:
+      - db-directorio_negocios
+    
+  phpmyadmin:
+    depends_on:
+      - db-directorio_negocios
+    image: phpmyadmin/phpmyadmin
+    #restart: always
+    container_name: directorio_negocios-phpmyadmin
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: db-directorio_negocios
+      UPLOAD_LIMIT: 10000M
+
+# networks:
+#  default:
+#    external:
+#      name: Juan-Antonio
+# docker network create casfid-network
+
+# docker-compose up -d
+# docker-compose up -d --build
+# docker exec -it e07e248f2817 bash
+# docker-compose build --no-cache --force-rm nombredelservicio(db,app,phpmyadmin)
+# docker stop $(docker ps -a -q)
+# docker inspect 2473635319d0 | grep IPAddress
