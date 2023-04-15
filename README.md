@@ -1,11 +1,5 @@
 # README #
 
-![Logo](https://madcoolfestival.es/images/MC22-Favicon.png)
-# Servidor Backend MadCool
-El proyecto contiene el backend de servidor de MadCool.
-<br>
-<br>
-
 # Deploy Local (DOCKER)
 
 1. Copiamos el fichero ```example.env``` en la misma carpeta, con el nombre ```.env```
@@ -13,8 +7,8 @@ El proyecto contiene el backend de servidor de MadCool.
 2. Modificamos en el fichero ```.env``` las variables de entorno:
 ```
 
-DB_HOST = db-madcool-app
-DB_NAME = madcool_backend_app
+DB_HOST = db-directorio_negocios
+DB_NAME = directorio_negocios
 DB_USER = root
 DB_PASS = root
 
@@ -33,10 +27,10 @@ docker-compose up -d
 - Entramos en el panel de PHPMYADMIN y creamos una bbdd
 - Ponemos el nombre de la base de datos en DB_NAME, en el fichero .env
 - El puerto dependerá de la configuración realizada en el docker, el SECURE_TOKEN es el que está en el .env
-- Ejecutamos las migraciones para crear las tablas de la base de datos. Accedemos al panel y abrimos la url localhost:81/admin/executeMigrations/SECURE_TOKEN/first
+- Ejecutamos las migraciones para crear las tablas de la base de datos. Accedemos al panel y abrimos la url localhost:81/executeMigrations/SECURE_TOKEN/first
 
 
 ### Usuario por defecto ###
 
-* Usuario: admin@casfid.es
+* Usuario: juan@pruebas.es
 * Pass: admin123

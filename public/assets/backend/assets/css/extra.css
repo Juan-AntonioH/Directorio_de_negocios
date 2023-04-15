@@ -1,0 +1,20 @@
+.c-banner {
+    background-image: url("../img/illustrations/red_negocios.jpg");
+    height: 100vh;
+    min-height: 500px;
+    margin: 0 auto;
+    overflow: hidden;
+    max-width: 1600px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.g--bg-light-opacity-50 {
+    background-color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.g--position-top-left-5v {
+    margin-top: 5vh;
+    margin-left: 5vw;
+}

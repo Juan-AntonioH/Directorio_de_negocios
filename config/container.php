@@ -59,6 +59,7 @@ return [
 
         $twig->getEnvironment()->addGlobal('app_name', $settings['app']['name']);
         $twig->getEnvironment()->addGlobal('app_logo', $settings['app']['logo']);
+        $twig->getEnvironment()->addGlobal('app_logo_color', $settings['app']['logo_color']);
         $twig->getEnvironment()->addGlobal('app_default_lang', $settings['app']['default_lang']);
         $twig->getEnvironment()->addGlobal('uploads_paths', $settings['twig']['uploads']);
 

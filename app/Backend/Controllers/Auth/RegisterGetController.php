@@ -11,7 +11,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Slim\Flash\Messages as Flash;
 use Slim\Views\Twig;
 
-final class LoginGetController extends FrontController
+final class RegisterGetController extends FrontController
 {
     private AuthService $authService;
 
@@ -28,6 +28,6 @@ final class LoginGetController extends FrontController
             return RouteHelpers::redirect($request, $response, 'dashboard');
         }
 
-        return $this->twig->render($response, '@backend/auth/login-register.twig');
+        return $this->twig->render($response, '@backend/auth/login-register.twig',['register' => true]);
     }
 }

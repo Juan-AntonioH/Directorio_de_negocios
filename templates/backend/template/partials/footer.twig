@@ -1,15 +1,38 @@
-<footer class="content-footer footer bg-footer-theme">
+<footer class="bg-head-foot text-white py-3">
+    <div class="container py-2">
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+                <h6 class="text-uppercase font-weight-bold mb-4">Acerca de nosotros</h6>
+                <p class="nav-link mb-4 w-75">Somos un directorio de negocios en línea que ayuda a conectar a personas con empresas locales en su área.</p>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+                <h6 class="text-uppercase font-weight-bold mb-4">Enlaces útiles</h6>
+                <ul class="list-unstyled mb-0">
+                    <li><a class="btn btn-outline-light fx-semibold" href="{{ url_for('dashboard') }}">Inicio</a></li>
+                    <li><a class="btn btn-outline-light fx-semibold my-2" href="https://www.empleafp.com/site/index.html">EmpleaFP</a></li>
+                    <li><a class="btn btn-outline-light fx-semibold" href="#">Política de privacidad</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
+                <h6 class="text-uppercase font-weight-bold mb-4">Contáctanos</h6>
+                <ul class="list-unstyled mb-0">
+                    <li><a href="mailto:juan@connectToCompany.com" class="btn btn-outline-light"><i class="bi bi-envelope me-2"></i>Juan@ConnectToCompany.com</a></li>
+                    <li class="my-2"><i class="bi bi-telephone me-2"></i>+34  6541234567</li>
+                    <li><i class="bi bi-geo-alt me-2"></i>Calle Principal 123, Valencia, España, 46006</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
     <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
         <div class="mb-2 mb-md-0">
             ©
             <script>
                 document.write(new Date().getFullYear());
             </script>
-            , made with ❤️ by
-            <a href="https://casfid.com" target="_blank" class="footer-link fw-bolder">Casfid</a>
-        </div>
-        <div>
-
+            , made with ❤️ by Juan Antonio
         </div>
     </div>
+            {# {% if isRole('qwe') %}
+<p>pepe<p>
+        {% endif %} #}
 </footer>

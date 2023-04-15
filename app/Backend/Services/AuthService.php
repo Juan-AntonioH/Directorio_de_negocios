@@ -2,9 +2,10 @@
 
 namespace App\Backend\Services;
 
-use App\Backend\Repositories\UserRepository;
-use Psr\Container\ContainerInterface;
+use App\Backend\Models\User;
 use Slim\Flash\Messages as Flash;
+use Psr\Container\ContainerInterface;
+use App\Backend\Repositories\UserRepository;
 
 final class AuthService
 {
@@ -64,6 +65,39 @@ final class AuthService
         $this->flash->addMessage('error', 'Contraseña incorrecta');
 
         return false;
+    }
+
+    public function register(array $fields)
+    {
+        $user = $this->userRepository->findByEmail($fields['email']);
+
+        if ($user) {
+            $this->flash->addMessage('error', 'Email ya registrado');
+
+            return false;
+        }
+        
+
+        $user = new User($this->container);
+
+        foreach($fields as $key => $field){
+            $user->$key = $field;
+        }
+
+        $user->setPassword($fields['password']);
+
+        $this->userRepository->save($user);
+
+        if($user = $this->userRepository->findByEmail($fields['email'])){
+            $this->flash->addMessage('success', 'Registro completado con exito. Bienvenido '.$user->name);
+            $_SESSION['user'] = $user->id;
+            $this->userRepository->saveLastLogin($user);
+            return true;
+        }
+
+        $this->flash->addMessage('error', 'Ocurrio un error inesperado');
+        return false;
+
     }
 
     public function logout()

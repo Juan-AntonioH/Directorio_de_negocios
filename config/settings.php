@@ -13,6 +13,7 @@ $settings = [
     'app' => [
         'name' => $_ENV['APP_NAME'],
         'logo' => $_ENV['APP_LOGO'],
+        'logo_color'=> $_ENV['APP_LOGO_COLOR'],
         'default_lang' => $_ENV['APP_DEFAULT_LANG'],
     ],
     'twig' => [

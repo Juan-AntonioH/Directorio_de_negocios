@@ -14,12 +14,12 @@
             content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"
     />
 
-    <title>{% block title %}{{ app.name }}{% endblock %}</title>
+    <title>{% block title %}Connect to Company{% endblock %}</title>
 
     <meta name="description" content=""/>
 
     <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="/assets/backend/assets/img/favicon/favicon.ico"/>
+    <link rel="icon" type="image/x-icon" href="/assets/backend/assets/img/favicon/favicon.png"/>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -33,7 +33,7 @@
     <link rel="stylesheet" href="/assets/backend/assets/vendor_js/fonts/boxicons.css"/>
 
     <!-- Core CSS -->
-    <link rel="stylesheet" href="/assets/backend/assets/vendor_js/css/core.css" class="template-customizer-core-css"/>
+    <link rel="stylesheet" href="/assets/backend/assets/vendor_js/css/bootstrap.min.css" class="template-customizer-core-css"/>
     <link rel="stylesheet" href="/assets/backend/assets/vendor_js/css/theme-default.css" class="template-customizer-theme-css"/>
     <link rel="stylesheet" href="/assets/backend/assets/css/demo.css"/>
 
@@ -57,30 +57,22 @@
 </head>
 
 <body>
-<!-- Layout wrapper -->
 <div class="layout-wrapper layout-content-navbar">
     <div class="layout-container">
-        <!-- Menu -->
 
-        {% include '@backend/template/partials/aside_menu.twig' %}
 
-        <!-- / Menu -->
-
-        <!-- Layout container -->
+        {% include '@backend/template/partials/header.twig' %}
+            {% block breadcrumbs %}
+            {% endblock %}
         <div class="layout-page">
-            <!-- Navbar -->
-            {#            {% include '@backend/template/partials/navbar.twig' %} #}
 
-            <!-- / Navbar -->
-
-            <!-- Content wrapper -->
             <div class="content-wrapper">
                 <!-- Content -->
 
                 <div class="container-xxl flex-grow-1 container-p-y">
                     <!-- Toast with Placements -->
                     <div
-                            class="bs-toast toast toast-notification m-2 position-absolute top-0 end-0"
+                            class="z-3 bs-toast toast toast-notification m-2 position-absolute top-0 end-0"
                             role="alert"
                             aria-live="assertive"
                             aria-atomic="true"
@@ -94,9 +86,8 @@
                         <div id="toast-notification-description" class="toast-body"></div>
                     </div>
 
-                    <div class="container-xxl flex-grow-1 container-p-y">
-                        {% block breadcrumbs %}
-                        {% endblock %}
+                    <div class="container flex-grow-1 mb-5">
+                        
 
                         <!-- Toast with Placements -->
                         {% block body %}
@@ -120,9 +111,8 @@
     <!-- Overlay -->
     <div class="layout-overlay layout-menu-toggle"></div>
 </div>
-<!-- / Layout wrapper -->
-
-
+                <!-- / Footer -->
+                
 <!-- Core JS -->
 <!-- build:js assets/vendor/js/core.js -->
 <script src="/assets/backend/assets/vendor_js/libs/jquery/jquery.js"></script>

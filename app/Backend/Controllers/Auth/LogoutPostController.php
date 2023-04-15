@@ -20,6 +20,6 @@ class LogoutPostController
     {
         $this->authService->logout();
 
-        return RouteHelpers::redirect($request, $response, 'auth.get.login');
+        return RouteHelpers::redirect($request, $response, 'dashboard');
     }
 }

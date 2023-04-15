@@ -1,0 +1,2 @@
+ALTER TABLE company
+ADD COLUMN deleted int(1) NOT NULL DEFAULT 0;

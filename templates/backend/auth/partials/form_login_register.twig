@@ -1,0 +1,234 @@
+{# <div class="card">
+    <div class="card-body">
+        {% if flash.getMessage('error') %}
+            <div class="alert alert-danger" role="alert">
+                {{ flash.getMessage('error') | first }}
+            </div>
+        {% endif %}
+        <!-- Logo -->
+        <div class="app-brand justify-content-center">
+            <a href="{{ url_for('auth.get.login') }}" class="app-brand-link gap-2">
+                <span class="app-brand-logo demo">
+                <img src="{{ app_logo_color }}" width="250"/>
+                </span>
+                <span class="app-brand-text demo text-body fw-bolder"></span>
+            </a>
+        </div>
+        <!-- /Logo -->
+        <h4 class="mb-2">Welcome to Connect to Company! 👋</h4>
+        <p class="mb-4">Please sign-in to your account and start the adventure</p>
+
+        <form id="formAuthentication" class="mb-3" action="{{ url_for('auth.post.login') }}" method="POST">
+            <div class="mb-3">
+                <label for="email" class="form-label">Email or Username</label>
+                <input
+                        type="text"
+                        class="form-control {{ errors.email ? 'is-invalid' : '' }}"
+                        id="email"
+                        name="email"
+                        placeholder="Enter your email or username"
+                        autofocus
+                        value="{{ old.email }}"
+                />
+                {% if errors.email %}
+                    <div class="invalid-feedback">
+                        {{ errors.email | first }}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="mb-3 form-password-toggle">
+                <div class="input-group input-group-merge">
+                    <input
+                            type="password"
+                            id="password"
+                            class="form-control {{ errors.password ? 'is-invalid' : '' }}"
+                            name="password"
+                            placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                            aria-describedby="password"
+                    />
+                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                </div>
+                {% if errors.password %}
+                    <div class="text-left invalid-feedback">
+                        {{ errors.password | first }}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="mb-3">
+                <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
+            </div>
+
+            {{ csrf.field | raw }}
+        </form>
+
+    </div>
+</div> #}
+
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link {{ register ? '' : 'active' }}" href="#login" data-bs-toggle="tab">Login</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link {{ register ? 'active' : '' }}" href="#register" data-bs-toggle="tab">Register</a>
+    </li>
+</ul>
+<div class="tab-content m-0 p-0">
+    <div class="tab-pane fade show {{ register ? '' : 'active' }}" id="login">
+            <!-- Login -->
+        <div class="card">
+            <div class="card-body">
+                {% if flash.getMessage('error') %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ flash.getMessage('error') | first }}
+                    </div>
+                {% endif %}
+                <!-- Logo -->
+                <div class="app-brand justify-content-center">
+                    <a href="{{ url_for('dashboard') }}" class="app-brand-link gap-2">
+                        <span class="app-brand-logo demo">
+                        <img src="{{ app_logo_color }}" width="250"/>
+                        </span>
+                        <span class="app-brand-text demo text-body fw-bolder"></span>
+                    </a>
+                </div>
+                <!-- /Logo -->
+                <h4 class="mb-2">Welcome to Connect to Company! 👋</h4>
+                <p class="mb-4">Please sign-in to your account and start the adventure</p>
+
+                <form id="formAuthentication" class="mb-3" action="{{ url_for('auth.post.login') }}" method="POST">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input
+                                type="text"
+                                class="form-control {{ errors.email ? 'is-invalid' : '' }}"
+                                id="email"
+                                name="email"
+                                placeholder="Enter your email"
+                                autofocus
+                                value="{{ old.email }}"
+                        />
+                        {% if errors.email %}
+                            <div class="invalid-feedback">
+                                {{ errors.email | first }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3 form-password-toggle">
+                        <div class="input-group input-group-merge">
+                            <input
+                                    type="password"
+                                    id="password"
+                                    class="form-control {{ errors.password ? 'is-invalid' : '' }}"
+                                    name="password"
+                                    placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                    aria-describedby="password"
+                            />
+                            <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                        </div>
+                        {% if errors.password %}
+                            <div class="text-left invalid-feedback">
+                                {{ errors.password | first }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
+                    </div>
+                    {{ csrf.field | raw }}
+                </form>
+            </div>
+        </div>
+            <!-- /Login -->
+    </div>
+    <div class="tab-pane fade show {{ register ? 'active' : '' }}" id="register">
+            <!-- Register -->
+        <div class="card">
+            <div class="card-body">
+                {% if flash.getMessage('error') %}
+                    <div class="alert alert-danger" role="alert">
+                        {{ flash.getMessage('error') | first }}
+                    </div>
+                {% endif %}
+                <!-- Logo -->
+                <div class="app-brand justify-content-center">
+                        <span class="app-brand-logo demo">
+                        <img src="{{ base_path() }}/assets/backend/assets/img/illustrations/register.jpg" width="200"/>
+                        </span>
+                        <span class="app-brand-text demo text-body fw-bolder"></span>                   
+                </div>
+                <!-- /Logo -->
+            
+            
+                <form id="formRegister" class="mb-3" action="{{ url_for('auth.post.register') }}" method="POST">
+                    <div class="mb-3">
+                        <label for="userName" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" 
+                        name="username" placeholder="Enter your username" autofocus />
+                    </div>
+                    <div class="mb-3">
+                        <label for="emailRegister" class="form-label">Email</label>
+                        <input type="text" class="form-control" id="emailRegister"
+                                name="emailRegister" placeholder="Enter your email"autofocus
+                                value="{{ old.email }}" />
+                        {% if errors.emailRegister %}
+                            <div class="invalid-feedback">
+                                {{ errors.email | first }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <label for="role" class="form-label">Role</label>
+                        <select class="form-select" size="2" multiple aria-label="multiple select example" name="role">
+                            <option selected value="2">User</option>
+                            <option value="3">Businessman</option>
+                        </select>
+                    </div>
+                    <div class="mb-3 form-password-toggle">
+                        <label for="passwordRegister" class="form-label">Password</label>
+                        <div class="input-group input-group-merge">
+                            <input
+                                    type="password"
+                                    id="passwordRegister"
+                                    class="form-control {{ errors.password ? 'is-invalid' : '' }}"
+                                    name="passwordRegister"
+                                    placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                    aria-describedby="password"
+                            />
+                            <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                        </div>
+                        {% if errors.password %}
+                            <div class="text-left invalid-feedback">
+                                {{ errors.password | first }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3 form-password-toggle">
+                        <label for="passwordRegisterRepeat" class="form-label">Repeat Password</label>
+                        <div class="input-group input-group-merge">
+                            <input
+                                    type="password"
+                                    id="passwordRegisterRepeat"
+                                    class="form-control {{ errors.passwordRegisterRepeat ? 'is-invalid' : '' }}"
+                                    name="passwordRegisterRepeat"
+                                    placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                                    aria-describedby="password"
+                            />
+                            <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                        </div>
+                        {% if errors.password %}
+                            <div class="text-left invalid-feedback">
+                                {{ errors.password | first }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="mb-3">
+                        <button class="btn btn-success d-grid w-100 {{ auth.user ? 'disabled' : '' }}" type="submit">Register</button>
+                    </div>
+                    {{ csrf.field | raw }}
+                </form>
+            </div>
+        </div>
+            <!-- /Register -->
+    </div>
+</div>
+  

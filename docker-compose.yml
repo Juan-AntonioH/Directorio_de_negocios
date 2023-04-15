@@ -45,7 +45,6 @@ services:
 #  default:
 #    external:
 #      name: Juan-Antonio
-# docker network create casfid-network
 
 # docker-compose up -d
 # docker-compose up -d --build

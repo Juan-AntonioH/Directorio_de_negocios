@@ -2,6 +2,9 @@
 * demo.css
 * File include item demo only specific css only
 ******************************************************************************/
+.bg-head-foot{
+    background-color: #30329C;
+}
 
 .menu .app-brand.demo {
     height: 64px;

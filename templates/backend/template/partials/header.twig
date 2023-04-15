@@ -1,0 +1,54 @@
+<nav class="navbar navbar-expand-sm sticky-top p-0">
+    <div class="container-fluid bg-head-foot pb-2">
+        <a class="navbar-brand " href="{{ url_for('dashboard') }}"> <img src="{{ base_path() }}{{ app_logo }}" width="80"/> </a>
+        <button class="navbar-toggler border-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+            <div class="offcanvas-header bg-primary-subtle">
+                {# <h5 class="offcanvas-title" id="offcanvasNavbarLabel">logo</h5> #}
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            
+            <div class="offcanvas-body bg-head-foot">
+                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 align-items-center">
+                        {% if auth.user == null %}
+                        <li class="nav-item">
+                            <a class="text-white fw-semibold btn btn-outline-success" aria-current="page" href="{{ url_for('auth.get.login') }}">Login</a>                           
+                        </li>
+                        {% else %}
+                            <li class="nav-item">
+                                <i class="text-white fs-6 mx-2">Hola {{auth.user.name}}. 👋 </i>
+                            </li>
+                            <li class="nav-item">
+                                <form id="logoutForm" method="post" action="{{ url_for( 'auth.get.logout') }}">
+                                    <a href="javascript:$('#logoutForm').submit();" class="btn btn-outline-success text-white fw-semibold">
+                                        <div data-i18n="Analytics">Logout</div>
+                                    </a>
+                                    {{ csrf.field | raw }}
+                                </form>
+                            </li>
+                        {% endif %}
+                    
+                    <li class="nav-item">
+                        <a class="btn btn-outline-success text-white fw-semibold mx-2" href="#">Empresas</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="btn btn-outline-success dropdown-toggle text-white fw-semibold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Categorías
+                        </a>
+                        <ul class="dropdown-menu bg-primary-subtle">
+                            <li><a class="dropdown-item" href="#">Provincias</a></li>
+                            <li><a class="dropdown-item" href="#">Recientes</a></li>
+                            <li><a class="dropdown-item" href="#">Populares</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                <form class="d-flex" role="search">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
+                    <button class="btn btn-outline-success text-white fw-semibold" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</nav>
