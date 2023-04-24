@@ -9,4 +9,33 @@ final class CompanyRepository extends BaseRepository
 {
     public $tableName = 'company';
     public $class = Company::class;
+
+    function findCompanies($limit = 0)
+    {
+        $limit = $limit > 0 ? " LIMIT " . $limit : "";
+
+        $s = $this->db->prepare('SELECT c.*, p.name as provincia
+        FROM ' . $this->tableName . ' as c 
+        INNER JOIN provincias as p ON c.provincia = p.id 
+        WHERE deleted = 0 ORDER BY created_at DESC' . $limit);
+
+        $s->execute();
+        $s->setFetchMode(\PDO::FETCH_CLASS, $this->class);
+
+        return $s->fetchAll();
+    }
+
+    function findCompaniesUser($id)
+    {
+
+        $s = $this->db->prepare('SELECT c.*, p.name as provincia
+        FROM ' . $this->tableName . ' as c 
+        INNER JOIN provincias as p ON c.provincia = p.id 
+        WHERE deleted = 0 AND id_creator = ' . $id . ' ORDER BY created_at DESC');
+
+        $s->execute();
+        $s->setFetchMode(\PDO::FETCH_CLASS, $this->class);
+
+        return $s->fetchAll();
+    }
 }

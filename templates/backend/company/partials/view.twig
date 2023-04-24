@@ -1,0 +1,65 @@
+{% block body %}
+	<div class="card m-5">
+		<div class="card-header d-flex align-items-center bg-head-foot">
+			<h5 class="mb-0 text-white"><i class= "bx bxs-buildings text-white"></i> Información general de la empresa: 
+            <span class="text-uppercase fw-semibold"> {{ company.name }}</span></h5>          
+		</div>
+		<div class="card-body p-3">
+                  <div class="table-responsive text-nowrap">
+                        <table class="table table-primary ">
+                              <tbody>
+                                    <tr class="row p-1 m-0">
+                                          <td class="col-sm-3 text-nowrap border border-success fw-bold">Nombre</td>
+                                          <td class="col-sm-9 border border-success">{{company.name}}</td>
+                                    </tr>
+                                    <tr class="row p-1 m-0">
+                                          <td class="col-sm-3 text-nowrap border border-success fw-bold">Provincia</td>
+                                          <td class="col-sm-9 border border-success">{{company.provincia}}</td>
+                                    </tr>
+                                    <tr class="row p-1 m-0">
+                                          <td class="col-sm-3 text-nowrap border border-success fw-bold">Dirección</td>
+                                          <td class="col-sm-9 border border-success">{{company.direction}}</td>
+                                    </tr>
+                                    <tr class="row p-1 m-0">
+                                          <td class="col-sm-3 text-nowrap border border-success fw-bold">Teléfono</td>
+                                          <td class="col-sm-9 border border-success">{{company.phone}}</td>
+                                    </tr>
+                                    <tr class="row p-1 m-0">
+                                          <td class="col-sm-3 text-nowrap border border-success fw-bold">Email</td>
+                                          <td class="col-sm-9 border border-success"><a href="mailto:{{company.email}}">{{company.email}}</a></td>
+                                    </tr>
+                                    <tr class="row p-1 m-0">
+                                          <td class="col-sm-3 text-nowrap border border-success fw-bold">Enlace Web</td>
+                                          <td scope="row" class="link col-sm-9 border border-success"><a  href='{{company.url}}'>{{company.url}}</a></td>
+                                    </tr>
+                                    <tr class="row p-1 m-0">
+                                          <td class="col-sm-3 text-nowrap border border-success fw-bold">Descripción</td>
+                                          <td class="text-wrap col-sm-9 border border-success">{{ company.description|raw }}</td>
+                                    </tr>
+                              </tbody>
+                        </table>
+                  </div>
+
+              {# <div class="row">
+                  <div class="col-sm-3 text-nowrap border border-primary">Nombre</div>
+                  <div class="col-sm-9 border border-primary">{{company.name}}</div>
+                  <div class="col-sm-3 text-nowrap border border-primary">Provincia</div>
+                  <div class="col-sm-9 border border-primary">{{company.provincia}}</div>
+                  <div class="col-sm-3 text-nowrap border border-primary">Dirección</div>
+                  <div class="col-sm-9 border border-primary">{{company.direction}}</div>
+                  <div class="col-sm-3 text-nowrap border border-primary">Teléfono</div>
+                  <div class="col-sm-9 border border-primary">{{company.phone}}</div>
+                  <div class="col-sm-3 text-nowrap border border-primary">Email</div>
+                  <div class="col-sm-9 border border-primary">{{company.email}}</div>
+                  <div class="col-sm-3 text-nowrap border border-primary">URL</div>
+                  <div class="col-sm-9 border border-primary">{{company.url}}</div>
+                  <div class="col-sm-3 text-nowrap border border-primary">Descripción</div>
+                  <div class="col-sm-9 border border-primary">{{company.description}}</div>
+            </div> #}
+            </div>
+	</div>
+{% endblock %}
+
+{% block extraCss %}
+	<link rel="stylesheet" href="/assets/backend/assets/css/extra.css"/>
+{% endblock %}

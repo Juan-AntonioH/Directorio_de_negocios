@@ -1,0 +1,131 @@
+<div class="container-xxl flex-grow-1 container-p-y">
+    <div class="card">
+        <h3 class="text-success fw-bold" style="margin-left:30px; margin-top: 30px; margin-bottom: -30px;">{{company ? 'Editar información de la compañia' : 'Introducir datos de la nueva compañia'}}</h3>
+
+        <div class="card-header d-flex align-items-center justify-content-between">
+            <div class="mt-2 col-12">
+                <div class="card-body">
+                    <form method="POST" action="{{ url_for( not company.id ? 'company.post.create' : 'company.post.edit', {id: company.id}) }}" enctype="multipart/form-data">
+                        <div class="mb-4 col-mb-12">                           
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-7">
+                                <div class="form-group">
+                                    <label for="name" class="form-label fw-semibold">Nombre empresa</label>
+                                    <input class="form-control" type="text" id="name" name="name" value="{{ company.name ? : old.name }}" 
+                                        autofocus="" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="phone" class="form-label fw-semibold">Teléfono</label>
+                                    <input type="tel" class="form-control" name="phone" placeholder="ej: 656512345" 
+                                        pattern="^[0-9]+" value="{{ company.phone ? : old.phone }}" required>
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group form-check col-md-1">
+                                    <label class="form-label fw-semibold mb-2" style="margin-bottom:-5px;" for="active">Activar</label>
+                                    <label class="switch">
+                                        <input type="checkbox" id="company_activate" {{ company.active ? 'checked' : '' }} 
+                                            hidden name="active" value="1" >
+                                        <span class="slider"></span>
+                                    </label>
+                                </div> 
+                            </div>
+
+                        </div>
+                        <hr>
+                        <div class="content-panel-body">
+                            <div class="row mb-4">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="direction" class="form-label fw-semibold">Dirección</label>
+                                        <input class="form-control" type="text" id="direction" name="direction" 
+                                            value="{{ company.direction ? : old.direction }}" autofocus="" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="email" class="form-label fw-semibold">Email</label>
+                                        <input class="form-control" type="email" id="email" name="email" 
+                                            value="{{ company.email ? : old.email }}" autofocus="" required>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-4">
+                                <label for="description" class="form-label mb-3 fw-semibold">Descripción</label>
+                                <textarea id="description" name="description" required>
+                                {{ company.description ? : old.description}}
+                                </textarea>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row col-12">
+                            <div class="form-group col-md-10">
+                                <label for="url" class="form-label mb-3 fw-semibold">URL Web</label>
+                                <input type="text" class="form-control" name="url" value="{{ company.url ? : old.url ? : 'https://' }}" 
+                                    placeholder="https://example.com" pattern="[Hh][Tt][Tt][Pp][Ss]?:\/\/.*" required>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="provincia" class="form-label mb-3 fw-semibold">Provincia</label>
+                                <select class="form-select" id="provincia" name="provincia">
+                                    {% for provincia in provincias %}
+                                        <option value="{{ provincia.id }}" 
+                                        {{ company.provincia == provincia.id ? 'selected' : ''}}>
+                                        {{ provincia.name }}</option>
+                                    {% endfor %}
+                                    
+                                </select>
+
+                            </div>
+                        </div> 
+
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-primary">Guardar</button>                                                  
+                        </div>
+                        {{ csrf.field | raw }}                   
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% block extraJS %}
+{# <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> #}
+
+    <script>
+{# 
+        function validacion(){
+            let error = "";
+
+            if(error){
+                Swal.fire({
+                icon: 'error',
+                title: 'Error al crear la noticia',
+                html: error
+                })
+            }
+
+        } #}
+
+        window.onload = ()=>{
+            ClassicEditor
+                .create( document.querySelector( '#description' ), {
+                    // toolbar: [ 'heading', '|', 'bold', 'italic', 'link' ]
+                } )
+                .then( description => {
+                    window.description = description;
+                } )
+                .catch( err => {
+                    console.error( err.stack );
+                } );
+        };
+
+    </script>
+{% endblock %}

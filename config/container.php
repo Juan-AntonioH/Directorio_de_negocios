@@ -88,6 +88,21 @@ return [
 
         $twig->getEnvironment()->addFunction($profilePath);
 
+        $absoluteUrl = new TwigFunction('absolute_url', function () use ($c, $settings) {
+            return $_SERVER['HTTP_HOST'];
+        });
+
+        $twig->getEnvironment()->addFunction($absoluteUrl);
+
+        $fullUrl = new TwigFunction('full_url', function () use ($c, $settings) {
+            $protocol = $_SERVER['REQUEST_SCHEME'];
+            $host = $_SERVER['HTTP_HOST'];
+            $path = $_SERVER['REQUEST_URI'];
+            return $protocol . '://' . $host . $path;
+        });
+
+        $twig->getEnvironment()->addFunction($fullUrl);
+
         return $twig;
     },
 

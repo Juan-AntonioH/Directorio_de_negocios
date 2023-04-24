@@ -106,6 +106,7 @@
                                 placeholder="Enter your email"
                                 autofocus
                                 value="{{ old.email }}"
+                                required
                         />
                         {% if errors.email %}
                             <div class="invalid-feedback">
@@ -122,6 +123,7 @@
                                     name="password"
                                     placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                                     aria-describedby="password"
+                                    required
                             />
                             <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                         </div>
@@ -132,7 +134,7 @@
                         {% endif %}
                     </div>
                     <div class="mb-3">
-                        <button class="btn btn-primary d-grid w-100" type="submit">Sign in</button>
+                        <button class="btn btn-primary d-grid w-100" type="submit">Login</button>
                     </div>
                     {{ csrf.field | raw }}
                 </form>
@@ -163,13 +165,14 @@
                     <div class="mb-3">
                         <label for="userName" class="form-label">Username</label>
                         <input type="text" class="form-control" id="username" 
-                        name="username" placeholder="Enter your username" autofocus />
+                        name="username" placeholder="Enter your username" autofocus required/>
                     </div>
                     <div class="mb-3">
                         <label for="emailRegister" class="form-label">Email</label>
                         <input type="text" class="form-control" id="emailRegister"
                                 name="emailRegister" placeholder="Enter your email"autofocus
-                                value="{{ old.email }}" />
+                                value="{{ old.email }}" 
+                                required/>
                         {% if errors.emailRegister %}
                             <div class="invalid-feedback">
                                 {{ errors.email | first }}
@@ -193,6 +196,7 @@
                                     name="passwordRegister"
                                     placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                                     aria-describedby="password"
+                                    required
                             />
                             <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                         </div>
@@ -212,6 +216,7 @@
                                     name="passwordRegisterRepeat"
                                     placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                                     aria-describedby="password"
+                                    required
                             />
                             <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                         </div>

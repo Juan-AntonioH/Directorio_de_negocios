@@ -1,0 +1,19 @@
+{% extends '@backend/template/layout/app_layout.twig' %}
+{% block breadcrumbs %}
+    <h4 class="fw-bold py-3 mb-5"><a href="{{ url_for('company.get.list') }}" class="font-monospace fw-light ms-5">Empresas</a>  / Políticas de privacidad</h4>
+{% endblock %}
+
+{% block body %}
+    <main class="container py-3" style="max-width: 600px;">
+        <h1 class="text-primary fw-bold fs-1 mb-4">Política de privacidad</h1>
+        <p class="fs-5 mb-4">En nuestro directorio de negocios, respetamos y protegemos la privacidad de nuestros usuarios. A continuación, detallamos nuestros compromisos y políticas de privacidad:</p>
+        <h2 class="text-primary fw-bold mb-4">Información personal</h2>
+        <p class="fs-5 mb-4">La única información personal que requerimos de nuestros usuarios es su dirección de correo electrónico al registrarse para publicar anuncios. Esta información se utiliza únicamente para verificar la identidad del usuario y para contactarnos en caso de cualquier incidencia. No compartimos esta información con terceros, salvo que la ley nos obligue a hacerlo o para proteger nuestros intereses en caso de violación de nuestros términos y condiciones.</p>
+        <h2 class="text-primary fw-bold mb-4">Información de navegación</h2>
+        <p class="fs-5 mb-4">Cuando visitas nuestro sitio web, recopilamos automáticamente información sobre tu dispositivo y navegación, incluyendo tu dirección IP, tipo de dispositivo, sistema operativo, navegador utilizado, páginas visitadas y sitios referidos. Esta información se utiliza para mejorar la calidad de nuestro servicio, para ofrecer estadísticas y análisis, y para proteger nuestros intereses en caso de violación de nuestros términos y condiciones.</p>
+        <h2 class="text-primary fw-bold mb-4">Cookies</h2>
+        <p class="fs-5 mb-4">Utilizamos cookies en nuestro sitio web para mejorar la experiencia del usuario, personalizar el contenido y ofrecer publicidad relevante. Los usuarios pueden desactivar las cookies en su navegador en cualquier momento, pero esto puede afectar el funcionamiento del sitio web.</p>
+        <h2 class="text-primary fw-bold mb-4">Modificaciones de la política de privacidad</h2>
+        <p class="fs-5 mb-4">Nos reservamos el derecho a modificar esta política de privacidad en cualquier momento. Cualquier cambio en nuestras políticas se publicará en nuestro sitio web y se comunicará a los usuarios.</p>
+    </main>
+{% endblock %}

@@ -14,7 +14,7 @@ final class Company extends BaseModel implements ModelInterface
     public $email;
     public $url;
     public $description;
-    public $active = 1;
+    public $active;
     public $provincia;
     public $id_creator;
     public $created_at;

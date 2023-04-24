@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-sm sticky-top p-0">
+<nav class="navbar navbar-expand-md sticky-top p-0">
     <div class="container-fluid bg-head-foot pb-2">
         <a class="navbar-brand " href="{{ url_for('dashboard') }}"> <img src="{{ base_path() }}{{ app_logo }}" width="80"/> </a>
         <button class="navbar-toggler border-light" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
@@ -18,7 +18,7 @@
                         </li>
                         {% else %}
                             <li class="nav-item">
-                                <i class="text-white fs-6 mx-2">Hola {{auth.user.name}}. 👋 </i>
+                                <i class="text-white fs-6 mx-2 text-nowrap">Hola {{auth.user.name}}. 👋 </i>
                             </li>
                             <li class="nav-item">
                                 <form id="logoutForm" method="post" action="{{ url_for( 'auth.get.logout') }}">
@@ -31,20 +31,22 @@
                         {% endif %}
                     
                     <li class="nav-item">
-                        <a class="btn btn-outline-success text-white fw-semibold mx-2" href="#">Empresas</a>
+                        <a class="btn btn-outline-success text-white fw-semibold mx-2" href="{{ url_for('company.get.list') }}">Empresas</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="btn btn-outline-success dropdown-toggle text-white fw-semibold" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Categorías
                         </a>
                         <ul class="dropdown-menu bg-primary-subtle">
-                            <li><a class="dropdown-item" href="#">Provincias</a></li>
+                        {% if auth.user.id_rol == 3 %}
+                            <li><a class="dropdown-item" href="{{ url_for('company.get.list', {id: auth.user.id} ) }}">Tus Empresas</a></li>
+                        {% endif %}
                             <li><a class="dropdown-item" href="#">Recientes</a></li>
                             <li><a class="dropdown-item" href="#">Populares</a></li>
                         </ul>
                     </li>
                 </ul>
-                <form class="d-flex" role="search">
+                <form method="GET" action="#" class="d-flex" role="search">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
                     <button class="btn btn-outline-success text-white fw-semibold" type="submit">Search</button>
                 </form>

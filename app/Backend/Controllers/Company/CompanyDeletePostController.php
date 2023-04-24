@@ -3,7 +3,6 @@
 namespace App\Backend\Controllers\Company;
 
 use App\Backend\Repositories\CompanyRepository;
-use App\Backend\Repositories\UserRepository;
 use App\Backend\Services\CompanyService;
 use App\Shared\Controllers\PostController;
 use App\Shared\Helpers\RouteHelpers;
@@ -19,14 +18,13 @@ use Slim\Flash\Messages as Flash;
 final class CompanyDeletePostController extends PostController
 {
     private CompanyService $companyService;
-    private UserRepository $userRepository;
+
     private CompanyRepository $companyRepository;
 
-    public function __construct(ContainerInterface $container, Validator $validator, Flash $flash, CompanyService $companyService, UserRepository $userRepository, CompanyRepository $companyRepository)
+    public function __construct(ContainerInterface $container, Validator $validator, Flash $flash, CompanyService $companyService, CompanyRepository $companyRepository)
     {
         parent::__construct($container, $validator, $flash);
         $this->companyService = $companyService;
-        $this->userRepository = $userRepository;
         $this->companyRepository = $companyRepository;
 
     }
@@ -35,7 +33,7 @@ final class CompanyDeletePostController extends PostController
     {
         $company = $this->companyRepository->find($args['id']);
 
-        if(!$_SESSION['user'] == $company->id_creator){
+        if($_SESSION['user'] != $company->id_creator){
             $this->flash->addMessage('error', 'Deja de intentar choricear las empresas de otros');
             return RouteHelpers::redirect($request, $response, 'dashboard');
         }

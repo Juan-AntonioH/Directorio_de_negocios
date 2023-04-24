@@ -1,0 +1,16 @@
+{% extends '@backend/template/layout/app_layout.twig' %}
+{% block breadcrumbs %}
+    <h4 class="fw-bold py-3 mb-4"><a href="{{ url_for('company.get.list') }}" class="text-muted fw-light ms-5">Empresas</a>/ {{company ? 'Editar compañia' : 'Añadir compañia'}}</h4>
+{% endblock %}
+
+{% block body %}
+    {% include '@backend/company/partials/form.twig' %}  
+{% endblock %}
+
+{% block extraCss %}
+    <link rel="stylesheet" href="/assets/backend/assets/css/active.css"/>
+{% endblock %}
+
+{% block extraJS %}
+    <script src="/assets/backend/assets/js/checkEditor/ckeditor.js"></script>
+{% endblock %}
