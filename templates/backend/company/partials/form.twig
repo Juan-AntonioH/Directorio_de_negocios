@@ -87,7 +87,7 @@
                         </div> 
 
                         <div class="mt-4">
-                            <button type="submit" class="btn btn-primary">Guardar</button>                                                  
+                            <button id="sendForm" type="submit" class="btn btn-primary">Guardar</button>                                                  
                         </div>
                         {{ csrf.field | raw }}                   
                     </form>
@@ -97,23 +97,10 @@
     </div>
 </div>
 {% block extraJS %}
-{# <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> #}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
-{# 
-        function validacion(){
-            let error = "";
-
-            if(error){
-                Swal.fire({
-                icon: 'error',
-                title: 'Error al crear la noticia',
-                html: error
-                })
-            }
-
-        } #}
-
+    
         window.onload = ()=>{
             ClassicEditor
                 .create( document.querySelector( '#description' ), {
@@ -125,7 +112,25 @@
                 .catch( err => {
                     console.error( err.stack );
                 } );
+                
         };
-
+            {# if(flash.getMessage('success')){
+                event.preventDefault();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'No puedes realizar la búsqueda dejando este campo vacío.',
+                    html: error,
+                    width: 600,
+                    padding: '3em',
+                    color: '#30329C',
+                    background: '#fff url({{ base_path() }}/assets/backend/assets/img/backgrounds/trees.png)',
+                    backdrop: `
+                        rgba(0,0,123,0.4)
+                        url("{{ base_path() }}/assets/backend/assets/img/elements/nyan-cat.gif")
+                        left top
+                        no-repeat
+                    `
+                })
+            } #}
     </script>
 {% endblock %}

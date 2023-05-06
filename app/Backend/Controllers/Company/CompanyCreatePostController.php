@@ -66,6 +66,7 @@ final class CompanyCreatePostController extends PostController
 
         $this->flash->addMessage('success', $texto);
 
-        return RouteHelpers::redirect($request, $response, 'dashboard');
+        return is_null($args['id']) ? RouteHelpers::redirect($request, $response, 'company.get.create')           
+        : RouteHelpers::redirect($request, $response, 'company.get.edit',['id' => $args['id']]);
     }
 }

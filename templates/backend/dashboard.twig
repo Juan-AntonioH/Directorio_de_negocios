@@ -15,6 +15,7 @@
 {% endblock %}
 
 {% block body %}
+{# Empresas recientes #}
 	<div class="card">
 		<div class="card-header d-flex align-items-center justify-content-between">
 
@@ -49,8 +50,8 @@
 											<div class="d-flex justify-content-evenly">
 												<a class="me-1" href='{{ url_for('company.get.view', {id : company.id}) }}'><i class="bx bx-show me-1 text-info"></i></a>
 												{% if company.id_creator == auth.user.id %}
-													<a class="me-1" href='{{ url_for('company.get.edit', {id : company.id}) }}'><i class="bx bx-edit-alt pb-2 text-success"></i></a>
-													<i class="bx bx-trash text-danger" type="button" data-bs-toggle="modal" data-bs-target="#delete_{{company.id}}"></i>
+													<a class="me-1" href='{{ url_for('company.get.edit', {id : company.id}) }}'><i class="bx bx-edit-alt text-success"></i></a>
+													<i class="bx bx-trash text-danger pt-1" type="button" data-bs-toggle="modal" data-bs-target="#delete_{{company.id}}"></i>
 												{% endif %}
 											</div>
 										</td>
@@ -70,7 +71,99 @@
 												<div class="d-flex flex-row  justify-content-start modal-footer">
 													<form method="post" action="{{ url_for('company.post.delete', {id : company.id}) }}">
 														<div class="btn-group">
-															<button class="btn btn-danger dropdown-toggle" type="sumbmit" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+															<button class="btn btn-danger" type="submit" aria-haspopup="true" aria-expanded="false">
+																<i class="bx bx-trash me-1"></i>Delete
+															</button>
+														</div>
+														{{ csrf.field | raw }}
+													</form>
+													<button type="button" class="btn btn-primary " data-bs-dismiss="modal">Cancelar</button>
+												</div>
+											</div>
+										</div>
+									</div>
+								{% endif %}	
+							{% endfor %}
+							
+						{% endif %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	{# Empresas populares #}
+	<div class="card mt-5">
+		<div class="card-header d-flex align-items-center justify-content-between">
+
+			<h5 class="mb-0"><i class= "bx bxs-buildings text-primary"></i> Empresas Populares</h5>
+		</div>
+		<div class="card-body">
+			<div class="table-responsive text-nowrap">
+				<table class="table table-striped">
+					<thead>
+						<tr class="text-nowrap">
+							<th>#</th>
+							<th>Empresa</th>
+							<th>Provincia</th>
+							<th>Url</th>
+							<th>Valoración</td>
+							<th class="text-center">Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% if companiesPopular is empty %}
+							<tr>
+								<td colspan="100%" class="text-center">Actualmente no hay ninguna empresa disponible</td>
+							</tr>
+						{% else %}
+							{% for company in companiesPopular %}
+								{% if company.active == 1 or company.id_creator == auth.user.id %}
+									<tr>
+										<th>{{company.active == 0 ? 'No activo' : '' }}</th>
+										<td>{{ company.name }}</td>
+										<td>{{ company.provincia }}</td>
+										<td scope="row" class="link"><a  href='{{company.url}}'>{{company.url}}</a></td>
+										<td>
+                                            <b>{{company.points ?: '0'}} de 5</b>
+                                            {% set pointsRatio = (company.points / 5) * 100 %}
+                                            {% for i in range(1, 5) %}
+                                                    {% set starRatio = i * 20 %}
+                                                    {% if pointsRatio >= starRatio - 10 and pointsRatio < starRatio %}
+                                                        <i class="bx bxs-star-half text-warning pb-1"></i>
+                                                    {% elseif pointsRatio >= starRatio %}
+                                                        <i class="bx bxs-star text-warning pb-1"></i>
+                                                    {% else %}
+                                                        <i class="bx bx-star text-warning pb-1"></i>
+                                                    {% endif %}
+                                            {% endfor %}
+                                        </td>
+										<td>
+											<div class="d-flex justify-content-evenly">
+												<a class="me-1" href='{{ url_for('company.get.view', {id : company.id}) }}'><i class="bx bx-show me-1 text-info"></i></a>
+												{% if company.id_creator == auth.user.id %}
+													<a class="me-1" href='{{ url_for('company.get.edit', {id : company.id}) }}'><i class="bx bx-edit-alt text-success"></i></a>
+													<i class="bx bx-trash text-danger pt-1" type="button" data-bs-toggle="modal" data-bs-target="#delete_{{company.id}}"></i>
+												{% endif %}
+											</div>
+										</td>
+									</tr>
+
+									<div class="modal fade confirm-delete" id="delete_{{company.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h4 class="modal-title" id="myModalLabel">Eliminar Empresa
+														</h4>
+													<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+												</div>
+												<div class="modal-body">
+													¿Estás seguro de que quieres eliminar la empresa: {{company.name}}?
+												</div>
+												<div class="d-flex flex-row  justify-content-start modal-footer">
+													<form method="post" action="{{ url_for('company.post.delete', {id : company.id}) }}">
+														<div class="btn-group">
+															<button class="btn btn-danger" type="sumbmit" aria-haspopup="true" aria-expanded="false">
 																<i class="bx bx-trash me-1"></i>Delete
 															</button>
 														</div>

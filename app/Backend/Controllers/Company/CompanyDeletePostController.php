@@ -47,6 +47,7 @@ final class CompanyDeletePostController extends PostController
             $this->flash->addMessage('error', 'Ocurrió un error inesperado');
             return RouteHelpers::redirect($request, $response, 'dashboard');
         }
+        
         $this->flash->addMessage('success', 'Se eliminó con exito el registro');
         return RouteHelpers::redirect($request, $response, 'dashboard');
     }

@@ -1,7 +1,7 @@
 {% extends '@backend/template/layout/app_layout.twig' %}
 {% block breadcrumbs %}
 {% set id = app.request.url %}
-    <h4 class="fw-bold py-3 mb-5"><a href="{{ url_for('company.get.list') }}" class="font-monospace fw-light ms-5">Empresas</a>  / {{ auth.user.id == full_url()|split('/')|last ? " Tus Empresas" : " Lista" }}</h4>
+    <h4 class="fw-bold py-3 mb-5"><a href="{{ url_for('company.get.list') }}" class="font-monospace text-decoration-none fw-light ms-5">Empresas </a>  / {{ auth.user.id is not null and auth.user.id == full_url()|split('/')|last ? " Tus Empresas" : " Lista" }}</h4>
 {% endblock %}
 
 {% block body %}

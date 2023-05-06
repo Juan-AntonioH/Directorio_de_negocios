@@ -19,16 +19,20 @@ use App\Backend\Controllers\User\EditAccountPostController;
 use App\Backend\Controllers\Company\CompanyEditGetController;
 use App\Backend\Controllers\Company\CompanyListGetController;
 use App\Backend\Controllers\Company\CompanyViewGetController;
+use App\Backend\Controllers\Company\CompanyViewPostController;
 use App\Backend\Controllers\User\ChangePasswordPostController;
 use App\Backend\Controllers\Company\CompanyCreateGetController;
+use App\Backend\Controllers\Company\CompanyRecentGetController;
+use App\Backend\Controllers\Company\CompanySearchGetController;
 use App\Backend\Controllers\Company\CompanyCreatePostController;
 use App\Backend\Controllers\Company\CompanyDeletePostController;
-use App\Backend\Controllers\Company\CompanyPrivacyPoliciesGetController;
 use App\Backend\Controllers\Auth\SigInWithInvitationGetController;
 use App\Backend\Controllers\Auth\SigInWithInvitationPostController;
+use App\Backend\Controllers\Company\CompanyPopularityGetController;
 use App\Backend\Controllers\Users\UsersCreateInvitationGetController;
 use App\Backend\Controllers\Users\UsersCreateInvitationPostController;
 use App\Backend\Controllers\Users\UsersDeleteInvitationPostController;
+use App\Backend\Controllers\Company\CompanyPrivacyPoliciesGetController;
 
 /*
  * BACKEND APP ROUTES
@@ -46,6 +50,9 @@ return function (App $app) {
             $group->post('/register', RegisterPostController::class)->setName('auth.post.register');
             $group->post('/logout', LogoutPostController::class)->setName('auth.get.logout');
             $group->get('/empresa/list/[{id}]', CompanyListGetController::class)->setName('company.get.list');
+            $group->get('/empresa/recent', CompanyRecentGetController::class)->setName('company.get.recent');
+            $group->get('/empresa/popularity', CompanyPopularityGetController::class)->setName('company.get.popularity');
+            $group->get('/empresa/search', CompanySearchGetController::class)->setName('company.get.search');
             $group->get('/empresa/view/{id}', CompanyViewGetController::class)->setName('company.get.view');
             $group->get('/empresa/politicas-de-privacidad', CompanyPrivacyPoliciesGetController::class)->setName('privacyPolicies');
             // $group->get('/sigin/invitation/{token}', SigInWithInvitationGetController::class)->setName('auth.get.sigin.withInvitation');
@@ -57,12 +64,12 @@ return function (App $app) {
 
         /* Authenticated ROUTES */
         $group->group('', function (RouteCollectorProxy $group) {
-            $group->post('/empresa/vote/{id}', CompanyVotePostController::class)->setName('company.post.vote');
+            $group->post('/empresa/view/{id}', CompanyViewPostController::class)->setName('company.post.vote');
             $group->get('/empresa/create', CompanyCreateGetController::class)->setName('company.get.create');
             $group->post('/empresa/create', CompanyCreatePostController::class)->setName('company.post.create');
             $group->get('/empresa/{id}', CompanyEditGetController::class)->setName('company.get.edit');
             $group->post('/empresa/{id}', CompanyCreatePostController::class)->setName('company.post.edit');
-            $group->post('/empresa/delete/{id}', CompanyDeletePostController::class)->setName('company.post.delete')->setArgument('roles','admin');
+            $group->post('/empresa/delete/{id}', CompanyDeletePostController::class)->setName('company.post.delete');
                     // $group->get('/dashboard', DashboardController::class)->setName('dashboard');
                     // $group->post('/logout', LogoutPostController::class)->setName('auth.get.logout');
 

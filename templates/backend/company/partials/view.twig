@@ -36,30 +36,73 @@
                                           <td class="col-sm-3 text-nowrap border border-success fw-bold">Descripción</td>
                                           <td class="text-wrap col-sm-9 border border-success">{{ company.description|raw }}</td>
                                     </tr>
+                                    <tr class="row p-1 m-0">
+                                          <td class="col-sm-3 text-nowrap border border-success fw-bold">Valoración</td>
+                                          <td class="text-wrap col-sm-9 border border-success">
+                                                <div>
+                                                      <div>
+                                                            <span class="me-2 pt-1 d-none d-sm-inline">Valoración</span><b>{{popularity.points ?: '0'}} de 5</b>
+                                                            {% set pointsRatio = (popularity.points / 5) * 100 %}
+                                                            {% for i in range(1, 5) %}
+                                                                  {% set starRatio = i * 20 %}
+                                                                  {% if pointsRatio >= starRatio - 10 and pointsRatio < starRatio %}
+                                                                        <i class="bx bxs-star-half text-warning pb-1"></i>
+                                                                  {% elseif pointsRatio >= starRatio %}
+                                                                        <i class="bx bxs-star text-warning pb-1"></i>
+                                                                  {% else %}
+                                                                        <i class="bx bx-star text-warning pb-1"></i>
+                                                                  {% endif %}
+                                                            {% endfor %}
+                                                      </div>
+                                                      {% if auth.user.id_rol == 2 %}
+                                                            <form id="viewForm" method="POST" class="input-group my-2" action="{{ url_for('company.post.vote', {id: company.id}) }}">
+                                                                  <input id="valorar" name="valorar" type="range" class="form-range mb-2" min="1" max="5" step="1" value="3">
+                                                                  <label for="valorar" class="form-label me-2 pt-1 fw-semibold text-success">Valorar:</label>
+                                                                  <span class="input-group-text py-1 fw-semibold" id="value">3</span>
+                                                                  <button id="btnVotar" type="submit" class="btn btn-success ms-2">Votar</button>
+                                                                  {{ csrf.field | raw }}
+                                                            </form>
+                                                      {% endif %}
+                                                </div>
+                                          </td>
+                                    </tr>
                               </tbody>
                         </table>
                   </div>
-
-              {# <div class="row">
-                  <div class="col-sm-3 text-nowrap border border-primary">Nombre</div>
-                  <div class="col-sm-9 border border-primary">{{company.name}}</div>
-                  <div class="col-sm-3 text-nowrap border border-primary">Provincia</div>
-                  <div class="col-sm-9 border border-primary">{{company.provincia}}</div>
-                  <div class="col-sm-3 text-nowrap border border-primary">Dirección</div>
-                  <div class="col-sm-9 border border-primary">{{company.direction}}</div>
-                  <div class="col-sm-3 text-nowrap border border-primary">Teléfono</div>
-                  <div class="col-sm-9 border border-primary">{{company.phone}}</div>
-                  <div class="col-sm-3 text-nowrap border border-primary">Email</div>
-                  <div class="col-sm-9 border border-primary">{{company.email}}</div>
-                  <div class="col-sm-3 text-nowrap border border-primary">URL</div>
-                  <div class="col-sm-9 border border-primary">{{company.url}}</div>
-                  <div class="col-sm-3 text-nowrap border border-primary">Descripción</div>
-                  <div class="col-sm-9 border border-primary">{{company.description}}</div>
-            </div> #}
             </div>
 	</div>
 {% endblock %}
 
 {% block extraCss %}
 	<link rel="stylesheet" href="/assets/backend/assets/css/extra.css"/>
+{% endblock %}
+
+{% block extraJs %}
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+      <script>
+            let range = document.getElementById("valorar");
+            let value = document.getElementById("value");
+            let votar = document.getElementById("btnVotar");
+
+            range.addEventListener("change", function() {
+                  value.textContent = range.value;
+            });
+            
+            votar.addEventListener("click", (event) => {
+                  event.preventDefault();
+                  Swal.fire({
+                        title: '¿Seguro qué esa es tu decisión?',
+                        text: "La valoración a realizar es de: " + range.value + " estrellas",
+                        icon: 'info',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Aceptar'
+                  }).then((result) => {
+                        if (result.isConfirmed) {
+                              document.getElementById("viewForm").submit();
+                        }
+                  })
+            });
+      </script>
 {% endblock %}

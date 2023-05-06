@@ -9,7 +9,6 @@
                 {# <h5 class="offcanvas-title" id="offcanvasNavbarLabel">logo</h5> #}
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
-            
             <div class="offcanvas-body bg-head-foot">
                 <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 align-items-center">
                         {% if auth.user == null %}
@@ -41,16 +40,50 @@
                         {% if auth.user.id_rol == 3 %}
                             <li><a class="dropdown-item" href="{{ url_for('company.get.list', {id: auth.user.id} ) }}">Tus Empresas</a></li>
                         {% endif %}
-                            <li><a class="dropdown-item" href="#">Recientes</a></li>
-                            <li><a class="dropdown-item" href="#">Populares</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('company.get.recent') }}">Recientes</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('company.get.popularity') }}">Populares</a></li>
                         </ul>
                     </li>
                 </ul>
-                <form method="GET" action="#" class="d-flex" role="search">
-                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-                    <button class="btn btn-outline-success text-white fw-semibold" type="submit">Search</button>
+                    <form method="GET" action="{{ url_for('company.get.search') }}" class="d-flex" role="search">
+                    <input id="search" class="form-control me-2" type="search" name="search" placeholder="Search" aria-label="Search"/>
+                    <button id="btSearch" class="btn btn-outline-success text-white fw-semibold" type="submit">Search</button>
                 </form>
             </div>
         </div>
     </div>
 </nav>
+
+{% block extraJS %}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+ 
+    <script>
+        document.getElementById("btSearch").addEventListener("click", (event) => {
+            let error = "";
+
+            const search = document.getElementById("search").value
+            if( search == null || search === "" ) {
+            error += "Debes rellenar el campo search";
+            }
+       
+            if(error){
+                event.preventDefault();
+                Swal.fire({
+                    icon: 'error',
+                    title: 'No puedes realizar la búsqueda dejando este campo vacío.',
+                    html: error,
+                    width: 600,
+                    padding: '3em',
+                    color: '#30329C',
+                    background: '#fff url({{ base_path() }}/assets/backend/assets/img/backgrounds/trees.png)',
+                    backdrop: `
+                        rgba(0,0,123,0.4)
+                        url("{{ base_path() }}/assets/backend/assets/img/elements/nyan-cat.gif")
+                        left top
+                        no-repeat
+                    `
+                })
+            }
+        });
+    </script>
+{% endblock %}

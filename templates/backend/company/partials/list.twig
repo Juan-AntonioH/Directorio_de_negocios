@@ -1,16 +1,16 @@
 {% block body %}
-<div class="row m-0">
-    {% if auth.user.id_rol == 3 %}
-        <div class="card-header d-flex align-items-center justify-content-between me-2 col-sm-2">
-            <a type="button" class="btn btn-primary" href="{{ url_for('company.get.create') }}">Agregar Compañia</a>
-        </div>
-    {% endif %}
+    <div class="row ms-0">
+        {% if auth.user.id_rol == 3 %}
+            <div class="card-header d-flex align-items-center justify-content-between me-2 col-sm-2">
+                <a type="button" class="btn btn-primary" href="{{ url_for('company.get.create') }}">Agregar Compañia</a>
+            </div>
+        {% endif %}
         <div class="column ps-0 pb-2 col ">
             <label class="col-sm-4 text-nowrap text-success fs-5 fw-semibold pb-1">Filtrar por provincias </label>
             <select class="form-select col-sm-4 w-25" id="provincia" name="provincia">
-                <option value='Todas' selected>Todas</option>
+                <option emp='Todas' selected>Todas</option>
                 {% for provincia in provincias %}       
-                    <option value="{{ provincia.name }}"> {{ provincia.name }}</option>               
+                    <option emp="{{ provincia.name }}"> {{ provincia.name }}</option>               
                 {% endfor %}       
             </select>
         </div>
@@ -28,28 +28,45 @@
 							<th>Empresa</th>
 							<th>Provincia</th>
 							<th>Url</th>
+                            {{companies[0].points is null ? "" : '<th>Valoración</td>'}}
 							<th class="text-center">Actions</th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="listEmpresas">
 						{% if companies is empty %}
 							<tr>
 								<td colspan="100%" class="text-center">Actualmente no hay ninguna empresa disponible</td>
 							</tr>
 						{% else %}
-							{% for company in companies %}
+							{# {% for company in companies %}
                                 {% if company.active == 1 or company.id_creator == auth.user.id %}
                                     <tr>
                                         <th>{{company.active == 0 ? 'No activo' : '' }}</th>
                                         <td>{{ company.name }}</td>
                                         <td>{{ company.provincia }}</td>
                                         <td scope="row" class="link"><a  href='{{company.url}}'>{{company.url}}</a></td>
+                                        {% if company.points is not null %}
+                                            <td>
+                                                <b>{{company.points ?: '0'}} de 5</b>
+                                                {% set pointsRatio = (company.points / 5) * 100 %}
+                                                {% for i in range(1, 5) %}
+                                                        {% set starRatio = i * 20 %}
+                                                        {% if pointsRatio >= starRatio - 10 and pointsRatio < starRatio %}
+                                                            <i class="bx bxs-star-half text-warning pb-1"></i>
+                                                        {% elseif pointsRatio >= starRatio %}
+                                                            <i class="bx bxs-star text-warning pb-1"></i>
+                                                        {% else %}
+                                                            <i class="bx bx-star text-warning pb-1"></i>
+                                                        {% endif %}
+                                                {% endfor %}
+                                            </td>
+                                        {% endif %}
                                         <td>
                                             <div class="d-flex justify-content-evenly">
                                                 <a class="me-1" href='{{ url_for('company.get.view', {id : company.id}) }}'><i class="bx bx-show me-1 text-info"></i></a>
                                                 {% if company.id_creator == auth.user.id %}
-                                                    <a class="me-1" href='{{ url_for('company.get.edit', {id : company.id}) }}'><i class="bx bx-edit-alt pb-2 text-success"></i></a>
-                                                    <i class="bx bx-trash me-1 text-danger" type="button" data-bs-toggle="modal" data-bs-target="#delete_{{company.id}}"></i>
+                                                    <a class="me-1" href='{{ url_for('company.get.edit', {id : company.id}) }}'><i class="bx bx-edit-alt text-success"></i></a>
+                                                    <i class="bx bx-trash pt-1 text-danger" type="button" data-bs-toggle="modal" data-bs-target="#delete_{{company.id}}"></i>
                                                 {% endif %}
                                             </div>
                                         </td>
@@ -82,12 +99,55 @@
                                     </div>
                                 {% endif %}
 							{% endfor %}
-							
+							 #}
+
+                             {% for company in companies %}
+                                    <div class="modal fade confirm-delete" id="delete_{{company.id}}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" id="myModalLabel">Eliminar Empresa
+                                                        </h4>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    ¿Estás seguro de que quieres eliminar la empresa: {{company.name}}?
+                                                </div>
+                                                <div class="d-flex flex-row  justify-content-start modal-footer">
+                                                    <form method="post" action="{{ url_for('company.post.delete', {id : company.id}) }}">
+                                                        <div class="btn-group">
+                                                            <button class="btn btn-danger" type="sumbmit" aria-haspopup="true" aria-expanded="false">
+                                                                <i class="bx bx-trash me-1"></i>Delete
+                                                            </button>
+                                                        </div>
+                                                        {{ csrf.field | raw }}
+                                                    </form>
+                                                    <button type="button" class="btn btn-primary " data-bs-dismiss="modal">Cancelar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                             {% endfor %}
 						{% endif %}
 					</tbody>
 				</table>
 			</div>
 		</div>
+        <nav id="navPaginacion" class="d-flex align-items-center justify-content-center" aria-label="...">
+            <ul id="paginacion" class="pagination">
+                {# <li class="page-item disabled">
+                    <a class="page-link">Previous</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item active" aria-current="page">
+                    <a class="page-link">2</a>
+                </li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                </li> #}
+            </ul>
+        </nav>
 	</div>
 {% endblock %}
 
@@ -97,17 +157,258 @@
 
 {% block extraJS %}
     <script>
-        document.getElementById("provincia").addEventListener("change", function() {
-            let provincia = this.value;
-            let compañias = document.getElementsByTagName("tr");
-            for (let i = 1; i < compañias.length; i++) {
-                let celdas = compañias[i].getElementsByTagName("td");
-                if (celdas[1].textContent == provincia || provincia == "Todas") {
-                    compañias[i].style.display = "";
-                } else {
-                    compañias[i].style.display = "none";
-                }
+
+    //elementos del html
+    let numPagina = 1;
+    let tablaEmpresas = document.getElementById("listEmpresas");
+    let paginacion = document.getElementById("paginacion");
+    let empresas = {{companies | json_encode|raw}};
+    let numPaginas = Math.ceil(empresas.length/10);
+    let provincias = document.getElementById("provincia")
+
+    //oculta las empresas que no sean de la provincia seleccionada en el filtro
+    provincias.addEventListener("change", function() {
+        let provincia = this.value;
+        let companias = document.getElementsByTagName("tr");
+        for (let i = 1; i < companias.length; i++) {
+            let celdas = companias[i].getElementsByTagName("td");
+            if (celdas[1].textContent == provincia || provincia == "Todas") {
+                companias[i].style.display = "";
+            } else {
+                companias[i].style.display = "none";
             }
+        }
+    });
+
+    //Al cargar la pagina muestra numero de paginas si hay mas de 10 empresas
+    window.onload = function() {
+        empresas.length < 11 ? document.getElementById("navPaginacion").classList.add('d-none'):"";
+
+        let texto =`<li id="previous" class="page-item disabled">
+                        <a class="page-link" href="#">Previous</a>
+                    </li>`;
+
+        for (let pagina = 1; pagina <= numPaginas; pagina++) {
+            texto += `
+                <li id="pagina${pagina}" class="page-item" aria-current="page">
+                    <a class="page-link" href="#">${pagina}</a>
+                </li>
+            `;
+        }
+
+        texto +=`
+                <li id="next" class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+        `
+        paginacion.innerHTML = texto;
+
+        for (let pagina = 1; pagina <= numPaginas; pagina++) {
+            document.getElementById("pagina"+pagina).addEventListener("click", function() {
+                cambio(pagina)
+            })
+        }
+
+        document.getElementById("previous").addEventListener("click", function() {
+            cambio(-1)
+        })
+        document.getElementById("next").addEventListener("click", function() {
+            cambio(0)
+        })
+
+        document.getElementById("pagina"+numPagina).classList.add('active');
+
+        paginaEmpresas(1);
+    };
+
+    //Controla la paginacion
+    function cambio(pag){
+        provincias.value = "Todas"
+        provincias.dispatchEvent(new Event("change"));
+
+        switch (pag) {
+            case 0:
+            if(numPagina < numPaginas){
+                numPagina++;
+                document.querySelector('.active').classList.remove('active');
+                document.getElementById("pagina"+numPagina).classList.add('active');
+            }
+                break;
+            case -1:
+            if(numPagina != 1){
+                numPagina--;
+                document.querySelector('.active').classList.remove('active');
+                document.getElementById("pagina"+numPagina).classList.add('active');
+            }
+                break;
+            default:         
+                document.querySelector('.active').classList.remove('active');
+                document.getElementById("pagina"+pag).classList.add('active');
+                numPagina = pag;
+        }
+
+        if( numPagina <= 1 ){
+            document.getElementById("previous").classList.add('disabled');
+        }else{
+            document.getElementById("previous").classList.remove('disabled');
+        }
+
+        if( numPagina >= numPaginas ){
+            document.getElementById("next").classList.add('disabled');
+        }else{
+            document.getElementById("next").classList.remove('disabled');
+        }
+
+        paginaEmpresas(numPagina)
+    }
+
+//Pinta las empresas, dependiendo la pagina pone valoracion o no.
+    function paginaEmpresas(pag){
+        
+        let tablas = "";
+        let listaEmpresas = empresas.slice((pag-1)*10, pag*10).map(company => company)
+
+        listaEmpresas.forEach(company => {
+
+            if(company.active == 1 || company.id_creator == {{auth.user.id | json_encode|raw}}){            
+                
+                tablas +=`
+                <tr>
+                    <th>${ company.active == 0 ? 'No activo' : '' }</th>
+                    <td>${ company.name }</td>
+                    <td>${ company.provincia }</td>
+                    <td scope="row" class="link"><a  href='${ company.url}'>${ company.url }</a></td>`;
+                    if (company.points != null){
+                        let pointsRatio = (company.points / 5) * 100;
+
+                        tablas +=`
+                            <td>
+                                <b>${ company.points ? company.points : '0' } de 5</b>`;
+
+                                for (let i = 1; i <= 5; i++) {
+
+                                    let starRatio = i*20;
+                                    
+                                    if(pointsRatio >= starRatio - 10 && pointsRatio < starRatio){
+                                        tablas +=`
+                                            <i class="bx bxs-star-half text-warning pb-1"></i>
+                                        `
+                                    }else if(pointsRatio >= starRatio){
+                                        tablas +=`
+                                            <i class="bx bxs-star text-warning pb-1"></i>
+                                        `
+                                    }else{
+                                        tablas +=`
+                                            <i class="bx bx-star text-warning pb-1"></i>
+                                        `
+                                    }
+                                }
+
+                        tablas +=`
+                            </td>`                      
+                    }
+
+                    tablas +=`
+                    <td>
+                        <div class="d-flex justify-content-evenly">
+                            <a class="me-1" href=/empresa/view/${company.id}><i class="bx bx-show me-1 text-info"></i></a>`
+                            if(company.id_creator == {{auth.user.id | json_encode|raw}}){
+                                tablas +=`
+                                    <a class="me-1" href=/empresa/${company.id}><i class="bx bx-edit-alt text-success"></i></a>
+                                    <i class="bx bx-trash pt-1 text-danger" type="button" data-bs-toggle="modal" data-bs-target="#delete_${company.id}"></i>
+                                `
+                            }
+                    tablas +=`
+                        </div>
+                    </td>
+                </tr>
+                `
+
+                //Intento de aplicarlo por javascript
+                /*            
+                <div class="modal fade confirm-delete" id="delete_${company.id}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myModalLabel">Eliminar Empresa
+                                    </h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                            </div>
+                            <div class="modal-body">
+                                ¿Estás seguro de que quieres eliminar la empresa: ${company.name}?
+                            </div>
+                            <div class="d-flex flex-row  justify-content-start modal-footer">
+                            
+                                <form method="post" action="{{ url_for('company.post.delete', {id : company.id}) }}${company.id}">
+                                    <div class="btn-group">
+                                        <button class="btn btn-danger" type="submit" aria-haspopup="true" aria-expanded="false">
+                                            <i class="bx bx-trash me-1"></i>Delete
+                                        </button>
+                                    </div>
+                                    {{ csrf.field | raw }}
+                                </form>
+                                <button type="button" class="btn btn-primary " data-bs-dismiss="modal">Cancelar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>*/
+
+            }
+            })
+
+        tablaEmpresas.innerHTML = tablas;
+
+//Pruebas  con peticiones para intentar eliminarlo que no resultaron funcionando, error 400.
+
+        /*listaEmpresas.forEach(company => {
+        const deleteForm = document.querySelector(`#delete_form_${company.id}`);
+        const deleteButton = document.querySelector(`#btn_delete_${company.id}`);
+        
+        deleteButton.addEventListener("click", () => {
+            const csrf_name = document.querySelector('input[name="csrf_name"]').value;
+                const csrf_value = document.querySelector('input[name="csrf_value"]').value;
+            const formData = new FormData(deleteForm);
+            formData.append(csrf_name, csrf_value);
+            
+            fetch(`/empresa/delete/${company.id}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: new URLSearchParams(formData),
+            }).then(response => {
+            if (response.ok) {
+                location.reload();
+            } else {
+                console.error("No se pudo eliminar la empresa");
+            }
+            });
         });
+        });*/
+
+
+      /*  listaEmpresas.forEach(company => {
+    const deleteForm = document.querySelector("#delete_form_" + company.id);
+    if (deleteForm) {
+        deleteForm.addEventListener("submit", e => {
+            e.preventDefault();
+            fetch('/empresa/delete/' + company.id, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams(new FormData(deleteForm))
+            }).then(response => {
+                // hacer algo con la respuesta
+            }).catch(error => {
+                // manejar el error
+            })
+        })
+    }
+})*/
+
+    }
+    
     </script>
 {% endblock %}
+
